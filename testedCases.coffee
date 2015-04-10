@@ -9,7 +9,7 @@ module.exports =
     Q "incorrect"
 
   incorrectPromiseNotResolved: ->
-    Q.resolve "incorrect"
+    Q.defer().promise
 
   incorrectPromiseReject: ->
     Q.reject new Error "reject"
