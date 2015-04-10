@@ -21,14 +21,13 @@ getTesters = (testedFunc) ->
 
     assert true, "any additional checks here"
 
-describe 'checking different cases with different test approaches', ->
-  for testedFuncName, testedFunc of testedFunctions
-    testers = getTesters testedFunc
-    expectedResult =
-      if testedFuncName is "correct"
-        "SUCCEED"
-      else
-        "FAIL"
-    describe "tested case: #{testedFuncName}, tests below should: " + expectedResult, ->
-      for testerName, tester of testers
-        it testerName, tester
+for testedFuncName, testedFunc of testedFunctions
+  testers = getTesters testedFunc
+  expectedResult =
+    if testedFuncName is "correct"
+      "SUCCEED"
+    else
+      "FAIL"
+  describe "tested case: #{testedFuncName}, tests below should: " + expectedResult, ->
+    for testerName, tester of testers
+      it testerName, tester
