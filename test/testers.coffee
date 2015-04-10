@@ -5,6 +5,11 @@ assert = require('chai').assert
 checkResult = (result) ->
   assert result is "correct", "incorrect result"
 
+expectPromise = (promise) ->
+  assert Q.isPromise(promise), 'it\'s not a promise'
+  promise
+
+
 getTesters = (testedFunc) ->
   withDone: (done) ->
     testedFunc().then (result) ->
@@ -20,6 +25,10 @@ getTesters = (testedFunc) ->
       checkResult result
 
     assert true, "any additional checks here"
+
+  withoutDoneNotReturningPromiseButExpect: ->
+    expectPromise testedFunc().then (result) ->
+      checkResult result
 
 for testedFuncName, testedFunc of testedFunctions
   #skipping test cases
