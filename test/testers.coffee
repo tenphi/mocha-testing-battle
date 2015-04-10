@@ -22,9 +22,13 @@ getTesters = (testedFunc) ->
     assert true, "any additional checks here"
 
 for testedFuncName, testedFunc of testedFunctions
+  #skipping test cases
+  if (testedFuncName.indexOf 'x') is 0
+    continue
+
   testers = getTesters testedFunc
   expectedResult =
-    if testedFuncName is "correct"
+    if (testedFuncName.indexOf "correct") is 0
       "SUCCEED"
     else
       "FAIL"

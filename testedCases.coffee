@@ -1,18 +1,31 @@
 Q = require 'q'
+whenJs = require 'when'
 
 module.exports =
 
-  correct: ->
+  correctQ: ->
     Q "correct"
 
-  incorrectPromiseResolvedWithWrongValue: ->
+  xcorrectWhen: ->
+    whenJs "correct"
+
+  incorrectQPromiseResolvedWithWrongValue: ->
     Q "incorrect"
 
-  incorrectPromiseNotResolved: ->
+  xincorrectWhenPromiseResolvedWithWrongValue: ->
+    Q "incorrect"
+
+  incorrectQPromiseNotResolved: ->
     Q.defer().promise
 
-  incorrectPromiseReject: ->
+  xincorrectWhenPromiseNotResolved: ->
+    whenJs.promise (resolve) ->
+
+  incorrectQPromiseReject: ->
     Q.reject new Error "reject"
+
+  xincorrectWhenPromiseReject: ->
+    whenJs.reject new Error "reject"
 
   incorrectThrow: ->
     throw new Error "throw"

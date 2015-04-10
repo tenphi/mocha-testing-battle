@@ -12,3 +12,4 @@
 
   * add new testing approach - extend .//testers.coffee, getTesters
   * add new tested case - extend ./testedCases.coffee 
+  * skipping a tested case - prepend 'x' to its name: 'correctQ' -> 'xcorrectQ' 
