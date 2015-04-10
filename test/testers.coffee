@@ -1,9 +1,14 @@
 Q = require 'q'
-testedFunctions = require '../testedCases'
+#testedFunctions = require '../testedCases'
+testedFunctions = require '../testedCasesAdvanced'
+
 assert = require('chai').assert
 
 checkResult = (result) ->
   assert result is "correct", "incorrect result"
+
+checkSecondResult = (result) ->
+  assert result is "invalid", "incorrect result"
 
 expectPromise = (promise) ->
   assert Q.isPromise(promise), 'it\'s not a promise'
@@ -11,27 +16,52 @@ expectPromise = (promise) ->
 
 
 getTesters = (testedFunc) ->
-  withDone: (done) ->
-    testedFunc().then (result) ->
-      checkResult result
-      done()
+#  withDone: (done) ->
+#    testedFunc().then (result) ->
+#      checkResult result
+#      done()
+#
+#  withoutDoneReturningPromise: ->
+#    testedFunc().then (result) ->
+#      checkResult result
+#
+#  withoutDoneNotReturningPromise: ->
+#    testedFunc().then (result) ->
+#      checkResult result
+#
+#    assert true, "any additional checks here"
+#
+#  withoutDoneNotReturningPromiseButExpect: ->
+#    expectPromise testedFunc().then (result) ->
+#      checkResult result
 
-  withoutDoneReturningPromise: ->
-    testedFunc().then (result) ->
-      checkResult result
+  withPromiseAndAdvancedCheck: ->
+    Q.all [
+      (
+        testedFunc()
+        .then checkResult
+      ),
+      (
+        testedFunc('!')
+        .then checkSecondResult
+      )
+    ]
 
-  withoutDoneNotReturningPromise: ->
-    testedFunc().then (result) ->
-      checkResult result
-
-    assert true, "any additional checks here"
-
-  withoutDoneNotReturningPromiseButExpect: ->
-    expectPromise testedFunc().then (result) ->
-      checkResult result
+  withDoneAndAdvancedCheck: (done) ->
+    Q.all [
+      (
+        testedFunc()
+        .then checkResult
+      ),
+      (
+        testedFunc('!')
+        .then checkSecondResult
+      )
+    ]
+    .finally done
 
 for testedFuncName, testedFunc of testedFunctions
-  #skipping test cases
+#skipping test cases
   if (testedFuncName.indexOf 'x') is 0
     continue
 
