@@ -30,6 +30,6 @@ module.exports =
   incorrectThrow: ->
     throw new Error "throw"
 
-  incorrectMockPromiseNotResolved: ->
+  incorrectHomemadePromiseNotResolved: ->
     { then: -> }
 
