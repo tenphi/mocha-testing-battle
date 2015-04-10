@@ -5,8 +5,11 @@ module.exports =
   method: ->
     Q.resolve().delay(100).then -> [1,2,3]
 
-  hackMethod: ->
-    { then: -> }
+  smartMethodPromiseHack: ->
+    {
+      then: ->
+        catch: ->
+    }
 
   smartMethod: (num) ->
     if num < 7
@@ -16,7 +19,7 @@ module.exports =
     else
       Q.resolve 'right!'
 
-  smartHackMethod: (num) ->
+  smartMethodDoneHack: (num) ->
     if num < 7
       Q.reject 'less'
     else if num > 7

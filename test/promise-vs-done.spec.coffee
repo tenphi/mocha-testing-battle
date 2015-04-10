@@ -12,9 +12,65 @@ describe 'Testing with promises', ->
     api.method().then ->
       assert true
 
+  it 'correct: resolve', ->
+    Q.all [
+      (
+        api.smartMethod(6)
+        .then( (mes) ->
+          assert false, mes
+        , (mes) ->
+          assert.equal mes, 'less'
+        )
+      )
+
+      , (
+        api.smartMethod(8)
+        .then( (mes) ->
+          assert false, mes
+        , (mes) ->
+          assert.equal mes, 'bigger'
+        )
+      )
+
+      , (
+        api.smartMethod(7)
+        .then( (mes) ->
+          assert.equal mes, 'right!'
+        , (mes) ->
+          assert false, mes
+        )
+      )
+    ]
+
   it 'incorrect: resolve', ->
-    api.hackMethod().then -> # only name of method changed
-      assert false
+    Q.all [
+      (
+        api.smartMethodPromiseHack(6)
+        .then( (mes) ->
+          assert false, mes
+        , (mes) ->
+          assert.equal mes, 'less'
+        )
+      )
+
+    , (
+        api.smartMethodPromiseHack(8)
+        .then( (mes) ->
+          assert false, mes
+        , (mes) ->
+          assert.equal mes, 'bigger'
+        )
+      )
+
+    , (
+        api.smartMethodPromiseHack(7)
+        .then( (mes) ->
+          assert.equal mes, 'right!'
+        , (mes) ->
+          assert false, mes
+        )
+      )
+    ]
 
 describe 'Testing with #done()', ->
 
@@ -28,46 +84,64 @@ describe 'Testing with #done()', ->
       assert true
       done()
 
-  it 'correct: done called', (done) ->
+  it 'correct: resolve', (done) ->
     Q.all [
-      api.smartMethod(6)
-      .then (mes) ->
-        assert false
-      .catch (mes) ->
-        assert.equal mes, 'less'
+      (
+        api.smartMethod(6)
+        .then( (mes) ->
+          assert false, mes
+        , (mes) ->
+          assert.equal mes, 'less'
+        )
+      )
 
-      , api.smartMethod(8)
-      .then (mes) ->
-        assert false
-      .catch (mes) ->
-        assert.equal mes, 'bigger'
+    , (
+        api.smartMethod(8)
+        .then( (mes) ->
+          assert false, mes
+        , (mes) ->
+          assert.equal mes, 'bigger'
+        )
+      )
 
-      , api.smartMethod(7)
-      .then (mes) ->
-        assert.equal mes, 'right!'
-      .catch (mes) ->
-        assert false
+    , (
+        api.smartMethod(7)
+        .then( (mes) ->
+          assert.equal mes, 'right!'
+        , (mes) ->
+          assert false, mes
+        )
+      )
     ]
     .finally done
 
-  it 'incorrect: done called', (done) ->
+  it 'incorrect: resolve', (done) ->
     Q.all [
-      api.smartHackMethod(6) # only name of method changed
-      .then (mes) ->
-        assert false
-      .catch (mes) ->
-        assert.equal mes, 'less'
+      (
+        api.smartMethodDoneHack(6)
+        .then( (mes) ->
+          assert false, mes
+        , (mes) ->
+          assert.equal mes, 'less'
+        )
+      )
 
-      , api.smartMethod(8)
-      .then (mes) ->
-        assert false
-      .catch (mes) ->
-        assert.equal mes, 'bigger'
+    , (
+        api.smartMethodDoneHack(8)
+        .then( (mes) ->
+          assert false, mes
+        , (mes) ->
+          assert.equal mes, 'bigger'
+        )
+      )
 
-      , api.smartMethod(7)
-      .then (mes) ->
-        assert.equal mes, 'right!'
-      .catch (mes) ->
-        assert false
+    , (
+        api.smartMethodDoneHack(7)
+        .then( (mes) ->
+          assert.equal mes, 'right!'
+        , (mes) ->
+          assert false, mes
+        )
+      )
     ]
     .finally done
