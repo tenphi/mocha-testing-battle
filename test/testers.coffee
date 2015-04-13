@@ -36,29 +36,23 @@ getTesters = (testedFunc) ->
 #      checkResult result
 
   withPromiseAndAdvancedCheck: ->
-    Q.all [
-      (
-        testedFunc()
-        .then checkResult
-      ),
-      (
-        testedFunc('!')
-        .then checkSecondResult
-      )
-    ]
+  # should still return true on each call
+    testedFunc()
+    .then (answer) ->
+      assert.equal answer, true
+      testedFunc()
+    .then (answer) ->
+      assert.equal answer, true
 
   withDoneAndAdvancedCheck: (done) ->
-    Q.all [
-      (
-        testedFunc()
-        .then checkResult
-      ),
-      (
-        testedFunc('!')
-        .then checkSecondResult
-      )
-    ]
-    .finally done
+    # should still return true on each call
+    testedFunc()
+    .then( (answer) ->
+      assert.equal answer, true
+      testedFunc()
+    ).then (answer) ->
+      assert.equal answer, true
+      done()
 
 for testedFuncName, testedFunc of testedFunctions
 #skipping test cases

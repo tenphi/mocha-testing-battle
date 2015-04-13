@@ -1,15 +1,15 @@
 Q = require 'q'
 whenJs = require 'when'
 
+assert = require('chai').assert
+
 module.exports =
 
   correctAdvancedQ: (id) ->
-    # should not receive id
-    Q.resolve().then ->
-      if id?
-        Q.resolve 'invalid'
-      else
-        Q.resolve 'correct'
+    Q.resolve true
 
   incorrectAdvancedQ: (id) ->
-    Q.resolve().then ->
+    then: ->
+      then: (cb) ->
+        cb(true)
+        Q.resolve()
