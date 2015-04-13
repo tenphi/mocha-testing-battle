@@ -47,12 +47,13 @@ getTesters = (testedFunc) ->
   withDoneAndAdvancedCheck: (done) ->
     # should still return true on each call
     testedFunc()
-    .then( (answer) ->
+    .then (answer) ->
       assert.equal answer, true
       testedFunc()
-    ).then (answer) ->
+    .then (answer) ->
       assert.equal answer, true
       done()
+    .catch done
 
 for testedFuncName, testedFunc of testedFunctions
 #skipping test cases
