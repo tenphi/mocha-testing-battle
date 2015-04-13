@@ -13,7 +13,7 @@ module.exports =
     Q "incorrect"
 
   xincorrectWhenPromiseResolvedWithWrongValue: ->
-    Q "incorrect"
+    whenJs "incorrect"
 
   incorrectQPromiseNotResolved: ->
     Q.defer().promise
@@ -33,3 +33,12 @@ module.exports =
   incorrectHomemadePromiseNotResolved: ->
     { then: -> }
 
+  incorrectHomemadePromiseWithBrokenContract: ->
+    {
+    then: (cb) ->
+      cb('correct');
+      undefined
+    catch: (cb) ->
+      cb('error')
+      undefined
+    }
